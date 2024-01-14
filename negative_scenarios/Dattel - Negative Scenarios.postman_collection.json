@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "430a44e7-75ff-4b24-993a-136cecae2056",
+		"name": "Dattel - Negative Scenarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32311671"
+	},
+	"item": [
+		{
+			"name": "Login with Invalid User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Email or password is incorrect.\", pm.response.json().message)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"jef@gmail.com\",\r\n  \"password\": \"Password123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{authUrl}}",
+					"host": [
+						"{{authUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with Incorrect Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Email or password is incorrect.\", pm.response.json().message)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"jefcheek@gmail.com\",\r\n  \"password\": \"Password1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{authUrl}}",
+					"host": [
+						"{{authUrl}}"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "Password123!",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category without Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{toDoUrl}}InitParameter",
+					"host": [
+						"{{toDoUrl}}InitParameter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Task with Invalid Category",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"taskId\", _.random(10000, 99999))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 11111,\r\n  \"taskName\": \"View house\",\r\n  \"category\": \"Building\",\r\n  \"isCompleted\": true,\r\n  \"userId\": \"f964b012-db2b-4e04-8d11-e4e94705502c\",\r\n  \"updatedDate\": \"2024-01-13T06:39:45.519Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{toDoUrl}}",
+					"host": [
+						"{{toDoUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Task",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"taskId\", _.random(10000, 99999))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 108,\r\n  \"taskName\": \"Learn wrestling\",\r\n  \"category\": \"Health\",\r\n  \"isCompleted\": true,\r\n  \"userId\": \"f964b012-db2b-4e04-8d11-e4e94705502c\",\r\n  \"updatedDate\": \"2024-01-13T06:39:45.519Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{toDoUrl}}",
+					"host": [
+						"{{toDoUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Task with Duplicate Tasks",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 109,\r\n  \"taskName\": \"Learn wrestling\",\r\n  \"category\": \"Health\",\r\n  \"isCompleted\": true,\r\n  \"userId\": \"f964b012-db2b-4e04-8d11-e4e94705502c\",\r\n  \"updatedDate\": \"2024-01-13T06:40:45.519Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{toDoUrl}}",
+					"host": [
+						"{{toDoUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task Invalid Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test(\"Not Found\", pm.response.json().title)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{toDoUrl}}99999999",
+					"host": [
+						"{{toDoUrl}}99999999"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
